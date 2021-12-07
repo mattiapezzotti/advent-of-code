@@ -4,5 +4,5 @@ Most solutions are not the fastest :(
 
 *but they worked anyway so...*
 
-🎄 !(https://adventofcode.com/)[**Happy Holidays!**] 🎄
+🎄 [**Happy Holidays!**](https://adventofcode.com/) 🎄
  
