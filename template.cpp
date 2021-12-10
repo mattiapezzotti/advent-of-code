@@ -2,16 +2,19 @@
 
 using namespace std;
 
-#define MAXN 1001
+#define MAXN 9999
 
 int main(){
-    int result = 42;
+    long long int result = 42;
 
     ifstream inputFile;
     inputFile.open ("input.txt");
     string line;
 
     if (inputFile.is_open()) {
+        while(!inputFile.eof()){
+            // Code Here
+        }
 
     }
     
