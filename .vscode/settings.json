@@ -4,6 +4,10 @@
         "ostream": "cpp",
         "ratio": "cpp",
         "fstream": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "numeric": "cpp",
+        "*.tcc": "cpp",
+        "cmath": "cpp",
+        "functional": "cpp"
     }
 }
