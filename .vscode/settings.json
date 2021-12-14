@@ -8,6 +8,8 @@
         "numeric": "cpp",
         "*.tcc": "cpp",
         "cmath": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "source_location": "cpp",
+        "tuple": "cpp"
     }
 }
