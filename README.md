@@ -1,4 +1,4 @@
-# Advent of Code 2021
+# Advent of Code
 
 Most solutions are not the fastest :(
 
