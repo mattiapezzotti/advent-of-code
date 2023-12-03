@@ -19,7 +19,7 @@ string searchNumberRight(string line, int x){
         return "";
     }
 
-    return line[x] + searchNumberLeft(line, x+1);
+    return line[x] + searchNumberRight(line, x+1);
 }
 
 
@@ -36,8 +36,6 @@ long long int findNumbers(vector<string> searchBox, int x){
         // Right
         rightNumber = searchNumberRight(line, x+1);
 
-        cout << rightNumber + " " + leftNumber << endl;
-
         if(isdigit(line[x])){
             foundNumber = leftNumber + line[x] + rightNumber;
             sum += stoi(foundNumber);
@@ -46,7 +44,7 @@ long long int findNumbers(vector<string> searchBox, int x){
             if(leftNumber != "")
                 sum += stoi(leftNumber);
             if(rightNumber != "")
-                sum += stoi(leftNumber);
+                sum += stoi(rightNumber);
         }
 
         leftNumber = "", rightNumber = "", foundNumber = "";
@@ -59,7 +57,7 @@ int main(){
     long long int result = 0;
 
     ifstream inputFile;
-    inputFile.open ("dummyinput.txt");
+    inputFile.open ("input.txt");
     string line;
     int i = 0, j = 0;
     int max_i = 0, max_j = 0;

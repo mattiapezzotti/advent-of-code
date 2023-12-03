@@ -4,83 +4,114 @@ using namespace std;
 
 #define MAXN 9999
 
-//12 red cubes, 13 green cubes, and 14 blue cubes
-int maxCubes[3] = {12,13,14};
-string cubeNames[3] = {"red", "green", "blue"};
-int foundCube[3];
-int maxFoundCubes[3];
-int gameNumber = 0;
+char mat[MAXN][MAXN];
 
-int foundCubes(string word, string color){
-    size_t pos = 0;
-    string cubes = "0";
-    size_t commaPos = 0;
-
-    if((pos = word.find(color)) != std::string::npos){
-        word = word.substr(0, pos);
-        commaPos = word.find_last_of(",");
-        cubes = word.substr(commaPos + 1, pos - 1);
+string searchNumberLeft(string line, int x){
+    if(x < 0 || !isdigit(line[x])){
+        return "";
     }
 
-    return stoi(cubes);
+    return searchNumberLeft(line, x-1) + line[x];
 }
 
-string workLine(string line){
+string searchNumberRight(string line, int x){
+    if(x >= line.length() || !isdigit(line[x])){
+        return "";
+    }
 
-    line += ";";
-    size_t pos = line.find(":");
-    line = "," + line.substr(pos + 2, line.length());
+    return line[x] + searchNumberRight(line, x+1);
+}
 
-    return line;
+
+long long int findNumbers(vector<string> searchBox, int x){
+    long long int gearProd = 0;
+    string leftNumber = "";
+    string rightNumber = "";
+    string foundNumber = "";
+    vector<long int> gear;
+
+    for(string line : searchBox){
+        // Left
+        leftNumber = searchNumberLeft(line, x-1);
+
+        // Right
+        rightNumber = searchNumberRight(line, x+1);
+
+        if(isdigit(line[x])){
+            foundNumber = leftNumber + line[x] + rightNumber;
+            gear.push_back(stoi(foundNumber));
+        }
+        else{
+            if(leftNumber != "")
+                gear.push_back(stoi(leftNumber));
+            if(rightNumber != "")
+                gear.push_back(stoi(rightNumber));
+        }
+
+        leftNumber = "", rightNumber = "", foundNumber = "";
+    }
+
+    if(gear.size() == 2)
+        gearProd = gear.at(0) * gear.at(1);
+
+    return gearProd;
 }
 
 int main(){
     long long int result = 0;
-    long long int gamePower = 1;
 
     ifstream inputFile;
     inputFile.open ("input.txt");
-
     string line;
-    string word;
-    string delimiter = ";";
-    size_t pos = 0;
-    
-    bool validGame;
-    
-    // Game
+    int i = 0, j = 0;
+    int max_i = 0, max_j = 0;
+
     for (string line; getline(inputFile, line); ) {
-        line = workLine(line);
-
-        gamePower = 1;
-
-        for(int i = 0; i < 3; i++){
-            maxFoundCubes[i] = 0;
+        for(j = 0; j < line.length(); j++){
+            mat[i][j] = line[j];
         }
-
-        // Estrazione cubi
-        while ((pos = line.find(delimiter)) != std::string::npos) {
-
-            word = line.substr(0, pos);
-            line.erase(0, pos + delimiter.length() + 1);
-            
-            for(int i = 0; i < 3; i++){
-                foundCube[i] = 0;
-            }
-
-            for(int i = 0; i < 3; i++){
-                foundCube[i] = foundCubes(word, cubeNames[i]);
-                if(foundCube[i] > maxFoundCubes[i])
-                    maxFoundCubes[i] = foundCube[i];
-            }
-        }
-
-        for(int i = 0; i < 3; i++){
-            gamePower *= maxFoundCubes[i];
-        }
-        result += gamePower;
+        i++;
     }
-    
+
+    max_j = j;
+    max_i = i;
+
+    vector<string> searchBox;
+
+    for(i = 0; i < max_i; i++){
+        for(j = 0; j < max_j; j++){
+            if(!isdigit(mat[i][j]) && mat[i][j] != '.'){
+                if(i == max_i - 1){
+                    // Last Line
+                    searchBox.push_back(mat[i-1]);
+                }
+                else{
+                    if(i == 0){
+                        // First Line
+                        searchBox.push_back(mat[i+1]);
+                    }
+                    else{
+                        // Normal Line
+                        searchBox.push_back(mat[i-1]);
+                        searchBox.push_back(mat[i+1]);
+                    }
+                }
+                searchBox.push_back(mat[i]);
+                result += findNumbers(searchBox, j);
+                searchBox.clear();
+            }
+        }
+    }
+
+    /*
+    for(i = 0; i < max_i; i++){
+        for(j = 0; j < max_j; j++){
+            cout << mat[i][j];
+        }
+        cout << endl;
+    }
+    */
+
     cout << "Result: " << result << endl;
     inputFile.close();
     return 0;
