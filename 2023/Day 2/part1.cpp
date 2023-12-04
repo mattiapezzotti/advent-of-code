@@ -59,7 +59,7 @@ int main(){
         }
 
         // Estrazione cubi
-        while ((pos = line.find(delimiter)) != std::string::npos) {
+        while (size_t pos = line.find(":")) {
 
             word = line.substr(0, pos);
             line.erase(0, pos + delimiter.length() + 1);
