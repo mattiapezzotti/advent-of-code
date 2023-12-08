@@ -11,7 +11,7 @@ int main(){
     inputFile.open ("input.txt");
     string line;
 
-    for (string line; getline(inputFile, line); ) {
+    while (getline(inputFile, line)) {
         cout << line << endl;
     }
     
