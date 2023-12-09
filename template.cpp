@@ -5,10 +5,10 @@ using namespace std;
 #define MAXN 9999
 
 int main(){
-    long long int result = 42;
+    long long int result = 0;
 
     ifstream inputFile;
-    inputFile.open ("input.txt");
+    inputFile.open ("dummyimput.txt");
     string line;
 
     while (getline(inputFile, line)) {
