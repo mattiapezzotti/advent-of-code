@@ -8,7 +8,7 @@ int main(){
     long long int result = 0;
 
     ifstream inputFile;
-    inputFile.open ("dummyimput.txt");
+    inputFile.open ("dummyinput.txt");
     string line;
 
     while (getline(inputFile, line)) {
