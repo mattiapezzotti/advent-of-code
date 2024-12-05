@@ -4,18 +4,26 @@ using namespace std;
 
 #define MAXN 9999
 
+ifstream in;
+ofstream out;
+
 int main(){
     long long int result = 0;
 
-    ifstream inputFile;
-    inputFile.open ("dummyinput.txt");
+    ifstream in;
+    in.open ("input.txt");
+    out.open("output.txt");
     string line;
 
-    while (getline(inputFile, line)) {
+    while (getline(in, line)) {
         cout << line << endl;
     }
     
-    cout << "Result: " << result << endl;
-    inputFile.close();
+    out << "Result: " << result << endl;
+    // out << "Time taken:" <<  (double)(clock() - tStart)/CLOCKS_PER_SEC << "s";
+    
+    in.close();
+    out.close();
+
     return 0;
 }
