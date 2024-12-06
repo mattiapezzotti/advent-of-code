@@ -6,9 +6,10 @@ using namespace std;
 
 ifstream in;
 ofstream out;
+long long int result = 0;
 
 int main(){
-    long long int result = 0;
+    //clock_t tStart = clock();
 
     ifstream in;
     in.open ("input.txt");
@@ -20,7 +21,7 @@ int main(){
     }
     
     out << "Result: " << result << endl;
-    // out << "Time taken:" <<  (double)(clock() - tStart)/CLOCKS_PER_SEC << "s";
+    // out << "Time taken: " <<  (double)(clock() - tStart)/CLOCKS_PER_SEC << "s";
     
     in.close();
     out.close();
