@@ -2,4 +2,5 @@
 .gitignore
 *.exe
 input.txt
+output.txt
 *.jar

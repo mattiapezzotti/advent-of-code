@@ -1,2 +1,0 @@
-Result: 3062
-Time taken:0.003s
