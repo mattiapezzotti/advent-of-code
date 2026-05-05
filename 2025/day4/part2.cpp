@@ -2,51 +2,65 @@
 
 using namespace std;
 
-#define MAXN 9999
+#define MAXN 200
 
 ifstream in;
 ofstream out;
-long long int result = 0;
+long long int result = 0, current;
+
+vector<vector<int>> grid(MAXN, vector<int>(MAXN, -1));
+
+bool checkCell(int i, int j){
+    if(grid[i][j] == -1) return false;
+
+    int paper = 0;
+
+    if(grid[i + 1][j] == 1) paper++;
+    if(grid[i + 1][j - 1] == 1) paper++;
+    if(grid[i + 1][j + 1] == 1) paper++;
+    if(grid[i - 1][j] == 1) paper++;
+    if(grid[i - 1][j + 1] == 1) paper++;
+    if(grid[i - 1][j - 1] == 1) paper++;
+    if(grid[i][j + 1] == 1) paper++;
+    if(grid[i][j - 1] == 1) paper++;
+
+    return paper < 4;
+}
 
 int main(){
     //clock_t tStart = clock();
 
-    ifstream in;
-    in.open ("input.txt");
+    in.open("input.txt");
     out.open("output.txt");
+
+    vector<string> raw;
     string line;
-    string resultS = "";
-    int currentDigit, currentPos, precPos = -1, foundPos;
+    while (getline(in, line))
+        if (!line.empty()) raw.push_back(line);
 
-    while (getline(in, line)) {
-        cout << endl;
-        for(int i = 11; i >= 0; i--){
-            currentDigit = 9;
-            currentPos = precPos;
+    int rows = raw.size() + 1;
+    int cols = raw[0].size() + 1;
 
-            do{
-                foundPos = line.find(to_string(currentDigit), currentPos + 1);
+    for (int r = 1; r < rows; r++)
+        for (int c = 1; c < cols; c++)
+            grid[r][c] = (raw[r-1][c-1] == '@') ? 1 : 0;
 
-                if(foundPos != string::npos && foundPos < line.length() - i){
-                    precPos = foundPos;
-                    resultS += to_string(currentDigit);
-                    cout << currentDigit;
-                    break;
+    do{
+        current = 0;
+        for (int r = 1; r < rows; r++){
+            for (int c = 1; c < cols; c++){
+                if(grid[r][c] && checkCell(r, c)){
+                    grid[r][c] = 0;
+                    current++;
                 }
-
-                if(currentDigit > 1)
-                    currentDigit--;
-
-            }while(true);
+            }
         }
-        result += stoll(resultS);
-        resultS = "";
-        precPos = -1;
-    }
-    
+        result += current;
+    }while(current != 0);
+
     out << "Result: " << result << endl;
-    // out << "Time taken: " <<  (double)(clock() - tStart)/CLOCKS_PER_SEC << "s";
-    
+    //out << "Time taken: " << (double)(clock() - tStart)/CLOCKS_PER_SEC << "s";
+
     in.close();
     out.close();
 

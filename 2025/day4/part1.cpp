@@ -2,53 +2,59 @@
 
 using namespace std;
 
-#define MAXN 9999
+#define MAXN 200
 
 ifstream in;
 ofstream out;
 long long int result = 0;
 
+vector<vector<int>> grid(MAXN, vector<int>(MAXN, -1));
+
+bool checkCell(int i, int j){
+    if(grid[i][j] == -1) return false;
+
+    int paper = 0;
+
+    if(grid[i + 1][j] == 1) paper++;
+    if(grid[i + 1][j - 1] == 1) paper++;
+    if(grid[i + 1][j + 1] == 1) paper++;
+    if(grid[i - 1][j] == 1) paper++;
+    if(grid[i - 1][j + 1] == 1) paper++;
+    if(grid[i - 1][j - 1] == 1) paper++;
+    if(grid[i][j + 1] == 1) paper++;
+    if(grid[i][j - 1] == 1) paper++;
+
+    return paper < 4;
+}
+
 int main(){
     //clock_t tStart = clock();
 
-    ifstream in;
-    in.open ("input.txt");
+    in.open("input.txt");
     out.open("output.txt");
+
+    vector<string> raw;
     string line;
-    int firstDigit, secondDigit, firstPos, secondPos, foundDigit;
+    while (getline(in, line))
+        if (!line.empty()) raw.push_back(line);
 
-    while (getline(in, line)) {
-        firstDigit = 9;
-        secondDigit = 9;
+    int rows = raw.size() + 1;
+    int cols = raw[0].size() + 1;
 
-        // FIRST
-        firstPos = -1;
-        do{
-            foundDigit = line.find(to_string(firstDigit), firstPos + 1);
+    for (int r = 1; r < rows; r++)
+        for (int c = 1; c < cols; c++)
+            grid[r][c] = (raw[r-1][c-1] == '@') ? 1 : 0;
 
-            if(foundDigit != string::npos && foundDigit != line.length() - 1){
-                firstPos = foundDigit;
-                result += 10 * firstDigit;
-            }
-            firstDigit--;
-        }while(foundDigit == string::npos || foundDigit == line.length() - 1);
-
-        // SECOND
-        secondPos = firstPos;
-        do{
-            foundDigit = line.find(to_string(secondDigit), secondPos + 1);
-
-            if(foundDigit != string::npos){
-                secondPos = firstPos;
-                result += secondDigit;
-            }
-            secondDigit--;
-        }while(foundDigit == string::npos);
+    for (int r = 1; r < rows; r++){
+        for (int c = 1; c < cols; c++){
+            if(grid[r][c] && checkCell(r, c))
+                result++;
+        }
     }
-    
+
     out << "Result: " << result << endl;
-    // out << "Time taken: " <<  (double)(clock() - tStart)/CLOCKS_PER_SEC << "s";
-    
+    //out << "Time taken: " << (double)(clock() - tStart)/CLOCKS_PER_SEC << "s";
+
     in.close();
     out.close();
 

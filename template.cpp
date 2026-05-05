@@ -11,7 +11,6 @@ long long int result = 0;
 int main(){
     //clock_t tStart = clock();
 
-    ifstream in;
     in.open ("input.txt");
     out.open("output.txt");
     string line;
